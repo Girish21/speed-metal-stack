@@ -1,0 +1,28 @@
+name: 🌀 Refresh all content
+on:
+  workflow_dispatch:
+
+jobs:
+  refresh-cache:
+    name: 🌟 Refresh Content
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: '50'
+
+      - name: 🛠 Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: 💿 Refresh all Content
+        run: node ./others/refresh-all-content.js
+        env:
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+          FLY_APP_NAME: ${{ secrets.FLY_APP_NAME }}

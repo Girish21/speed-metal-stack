@@ -1,0 +1,32 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model ContentState {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  sha       String
+  timestamp DateTime @updatedAt
+}
+
+model Content {
+  id               String   @id @default(uuid())
+  contentDirectory String
+  slug             String   @unique
+  title            String
+  code             String
+  frontmatter      String
+  timestamp        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  published        Boolean
+  requiresUpdate   Boolean? @default(false)
+  description      String   @default("")
+}

@@ -1,0 +1,230 @@
+name: 🚀 Deploy
+on:
+  push:
+    branches:
+      - main
+  pull_request: {}
+
+jobs:
+  changes:
+    name: 🔍 Determine Changes
+    runs-on: ubuntu-latest
+    outputs:
+      DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}
+    steps:
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: '50'
+
+      - name: 🛠 Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: ⚙️ Determine Changes
+        id: changes
+        run: >-
+          echo ::set-output name=DEPLOYABLE::$(node ./others/is-deployable.js)
+        env:
+          FLY_APP_NAME: ${{ secrets.FLY_APP_NAME }}
+
+      - name: ❓ Deployable
+        run: >-
+          echo "DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}"
+
+  jest:
+    name: 🃏 Jest
+    runs-on: ubuntu-latest
+    needs: [changes]
+    if: ${{ needs.changes.outputs.DEPLOYABLE == 'true' }}
+    steps:
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: '50'
+
+      - name: 🛠 Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+
+      - name: 🃏 Jest
+        run: npm run test -- --coverage
+
+  lint:
+    name: ⬣ ESLint
+    runs-on: ubuntu-latest
+    needs: [changes]
+    if: ${{ needs.changes.outputs.DEPLOYABLE == 'true' }}
+    steps:
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: '50'
+
+      - name: 🛠 Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+
+      - name: 🔬 Lint
+        run: npm run lint
+
+  typecheck:
+    name: ʦ TypeScript
+    runs-on: ubuntu-latest
+    needs: [changes]
+    if: ${{ needs.changes.outputs.DEPLOYABLE == 'true' }}
+    steps:
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: '50'
+
+      - name: 🛠 Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+
+      - name: 🔎 Type check
+        run: npm run typecheck
+
+  cypress:
+    name: ⚫️ Cypress
+    runs-on: ubuntu-latest
+    needs: [changes]
+    if: ${{ needs.changes.outputs.DEPLOYABLE == 'true' }}
+    steps:
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v2
+
+      - name: 🏄 Copy test env vars
+        run: cp .env.example .env
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+
+      - name: ⚙️ Build
+        run: npm run build
+
+      - name: ▲ Prisma
+        run: npx prisma migrate reset --force
+
+      - name: 🌳 Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          start: npm run start:mocks
+          wait-on: 'http://localhost:8811'
+          headless: true
+        env:
+          PORT: '8811'
+          DISABLE_TELEMETRY: 'true'
+
+  build:
+    name: 🐳 Build
+    needs: [changes]
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' &&
+      needs.changes.outputs.DEPLOYABLE == 'true' }}
+    runs-on: ubuntu-latest
+    # only build/deploy main branch on pushes
+    steps:
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v2
+
+      - name: 🐳 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      # Setup cache
+      - name: ⚡️ Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: 🔑 Fly Registry Auth
+        uses: docker/login-action@v1
+        with:
+          registry: registry.fly.io
+          username: x
+          password: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: 🐳 Docker build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: registry.fly.io/${{ secrets.FLY_APP_NAME }}:${{ github.sha }}
+          build-args: |
+            COMMIT_SHA=${{ github.sha }}
+            GITHUB_REPOSITORY=${{ github.repository }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
+
+      # This ugly bit is necessary if you don't want your cache to grow forever
+      # till it hits GitHub's limit of 5GB.
+      # Temp fix
+      # https://github.com/docker/build-push-action/issues/252
+      # https://github.com/moby/buildkit/issues/1896
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+  deploy:
+    name: 🚀 Deploy
+    runs-on: ubuntu-latest
+    needs: [changes, build, lint, jest, typecheck]
+    # only build/deploy main branch on pushes
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' &&
+      needs.changes.outputs.DEPLOYABLE == 'true' }}
+
+    steps:
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v2
+
+      - name: 🚀 Deploy
+        uses: superfly/flyctl-actions@1.1
+        with:
+          args:
+            'deploy -i registry.fly.io/${{ secrets.FLY_APP_NAME }}:${{ github.sha }}
+            --strategy rolling'
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ES2021"],
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "strict": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "noEmit": true,
+    "typeRoots": ["../node_modules/@types"]
+  }
+}

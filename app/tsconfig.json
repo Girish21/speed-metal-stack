@@ -1,0 +1,10 @@
+{
+  "include": ["remix.env.d.ts", "**/*"],
+  "extends": "../others/shared-tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./*"]
+    }
+  }
+}
