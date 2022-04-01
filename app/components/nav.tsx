@@ -1,7 +1,7 @@
 import * as React from 'react'
 import NavLink from './nav-link'
 import ThemeToggle, { SsrPlaceholder } from './theme-toggle'
-import { ClientOnly } from 'remix-utils'
+import { ClientOnly } from './client-only'
 
 export default function Nav() {
   return (

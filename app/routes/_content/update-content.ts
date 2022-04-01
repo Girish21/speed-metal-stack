@@ -1,5 +1,5 @@
-import type { ActionFunction } from 'remix'
-import { json } from 'remix'
+import type { ActionFunction } from '@remix-run/server-runtime'
+import { json } from '@remix-run/server-runtime'
 import nodepath from 'path'
 import { refreshAllContent, setRequiresUpdate } from '~/model/content.server'
 import { getMdxListItems } from '~/utils/mdx.server'

@@ -1,4 +1,4 @@
-import { createCookieSessionStorage } from 'remix'
+import { createCookieSessionStorage } from '@remix-run/node'
 import { getRequiredEnvVar } from './misc'
 import type { Theme } from './theme'
 

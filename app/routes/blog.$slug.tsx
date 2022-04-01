@@ -4,10 +4,10 @@ import type {
   LinksFunction,
   LoaderFunction,
   MetaFunction,
-} from 'remix'
-import { useLoaderData } from 'remix'
+} from '@remix-run/server-runtime'
+import { json } from '@remix-run/server-runtime'
+import { useLoaderData } from '@remix-run/react'
 import { getMDXComponent } from 'mdx-bundler/client'
-import { json } from 'remix'
 import invariant from 'tiny-invariant'
 import { getMdxPage } from '~/utils/mdx.server'
 import type { MdxComponent } from '~/types'

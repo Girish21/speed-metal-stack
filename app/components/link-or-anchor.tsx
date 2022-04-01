@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Link, LinkProps } from 'remix'
+import { Link, LinkProps } from '@remix-run/react'
 
 type AnchorProps = React.DetailedHTMLProps<
   React.AnchorHTMLAttributes<HTMLAnchorElement>,
@@ -14,7 +14,7 @@ type AnchorProps = React.DetailedHTMLProps<
 
 const LinkOrAnchor = React.forwardRef<HTMLAnchorElement, AnchorProps>(
   function LinkOrAnchorImpl(
-    { reloadDocument, download, to, href, prefetch, ...rest },
+    { reloadDocument, download, to, href, prefetch, children, ...rest },
     ref,
   ) {
     let url = ''
@@ -35,7 +35,11 @@ const LinkOrAnchor = React.forwardRef<HTMLAnchorElement, AnchorProps>(
     }
 
     if (anchor) {
-      return <a {...rest} href={href} download={download} ref={ref} />
+      return (
+        <a {...rest} href={href} download={download} ref={ref}>
+          {children}
+        </a>
+      )
     }
 
     return (
@@ -45,7 +49,9 @@ const LinkOrAnchor = React.forwardRef<HTMLAnchorElement, AnchorProps>(
         reloadDocument={reloadDocument}
         to={to ?? href ?? ''}
         prefetch={prefetch}
-      />
+      >
+        {children}
+      </Link>
     )
   },
 )

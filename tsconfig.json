@@ -7,6 +7,7 @@
     { "path": "content" },
     { "path": "mocks" },
     { "path": "cypress" },
-    { "path": "tests" }
+    { "path": "server" },
+    { "path": "test" }
   ]
 }

@@ -1,5 +1,5 @@
-import type { LoaderFunction } from 'remix'
-import { json } from 'remix'
+import type { LoaderFunction } from '@remix-run/server-runtime'
+import { json } from '@remix-run/server-runtime'
 import { getContentState } from '~/model/content-state.server'
 
 export const loader: LoaderFunction = async () => {

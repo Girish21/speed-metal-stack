@@ -1,11 +1,11 @@
-import * as React from 'react'
 import type {
   HeadersFunction,
   LinksFunction,
   LoaderFunction,
   MetaFunction,
-} from 'remix'
-import { json, useLoaderData } from 'remix'
+} from '@remix-run/server-runtime'
+import { json } from '@remix-run/server-runtime'
+import { useLoaderData } from '@remix-run/react'
 import BlogList from '~/components/blog-list'
 import { getMdxListItems } from '~/utils/mdx.server'
 import { getSeo } from '~/utils/seo'

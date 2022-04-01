@@ -1,16 +1,14 @@
-import * as React from 'react'
 import {
-  json,
   Links,
   LiveReload,
   Meta,
   Outlet,
-  redirect,
   Scripts,
   ScrollRestoration,
   useLoaderData,
-} from 'remix'
-import type { LinksFunction, LoaderFunction } from 'remix'
+} from '@remix-run/react'
+import { json, redirect } from '@remix-run/server-runtime'
+import type { LinksFunction, LoaderFunction } from '@remix-run/server-runtime'
 import { SkipNavContent, SkipNavLink } from '@reach/skip-nav'
 
 import Nav from '~/components/nav'

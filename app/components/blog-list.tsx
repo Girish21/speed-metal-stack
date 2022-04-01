@@ -1,10 +1,9 @@
-import * as React from 'react'
 import type { getMdxListItems } from '~/utils/mdx.server'
 import BlogItem from './blog-item'
 
-type BlogList = { blogList: Awaited<ReturnType<typeof getMdxListItems>> }
+type BlogListType = { blogList: Awaited<ReturnType<typeof getMdxListItems>> }
 
-export default function BlogList({ blogList }: BlogList) {
+export default function BlogList({ blogList }: BlogListType) {
   return (
     <ol className='flex flex-col'>
       {blogList.map(blogItem => (

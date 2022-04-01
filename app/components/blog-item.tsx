@@ -1,10 +1,9 @@
-import * as React from 'react'
-import { Link } from 'remix'
+import { Link } from '@remix-run/react'
 import type { getMdxListItems } from '~/utils/mdx.server'
 
-type BlogItem = Awaited<ReturnType<typeof getMdxListItems>>[0]
+type BlogItemType = Awaited<ReturnType<typeof getMdxListItems>>[0]
 
-export default function BlogItem({ description, slug, title }: BlogItem) {
+export default function BlogItem({ description, slug, title }: BlogItemType) {
   return (
     <li className='py-4'>
       <Link

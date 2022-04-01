@@ -1,19 +1,19 @@
 import * as React from 'react'
-import { useFetcher } from 'remix'
+import { useFetcher } from '@remix-run/react'
 
 export enum Theme {
   light = 'light',
   dark = 'dark',
 }
 
-type ThemeContext = [
+type ThemeContextType = [
   Theme | null,
   React.Dispatch<React.SetStateAction<Theme | null>>,
 ]
 
 const themes = Object.values(Theme)
 
-const ThemeContext = React.createContext<ThemeContext | null>(null)
+const ThemeContext = React.createContext<ThemeContextType | null>(null)
 
 const themeMediaQuery = '(prefers-color-scheme: dark)'
 
