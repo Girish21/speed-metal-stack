@@ -4,7 +4,7 @@ This blog starter template was inspired heavily by Kent C. Dodds implementation 
 
 ## Architecture 💡
 
-![website-architecture](https://github.com/Girish21/create-remix-blog/blob/main/images/fly-sqlite-arch.png)
+![website-architecture](./images/fly-sqlite-arch.png)
 
 ## Important 🚧
 
