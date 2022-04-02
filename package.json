@@ -18,7 +18,7 @@
     "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ext js,jsx,ts,tsx .",
     "new:blog": "node -r esbuild-register others/new-blog.ts",
     "setup": "prisma migrate dev && npm run new:blog",
-    "start": "remix-serve build",
+    "start": "cross-env NODE_ENV=production node ./build/server.js",
     "start:mocks": "cross-env NODE_ENV=production node --require ./mocks --require dotenv/config ./build/server.js",
     "test": "vitest",
     "test:e2e:dev": "cross-env RUNNING_E2E=true start-server-and-test dev http://localhost:3000/ cy:open",
