@@ -3,7 +3,7 @@
 Learn more about [Remix Stacks](https://remix.run/stacks).
 
 ```sh
-npx create-remix --template remix-run/blues-stack
+npx create-remix --template Girish21/speed-metal-stack
 ```
 
 ## Remix Blog 📖
