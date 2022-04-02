@@ -47,6 +47,20 @@ async function main({ rootDirectory }) {
     fs.writeFile(flyConfigPath, toml.stringify(flyConfigToml)),
     fs.writeFile(packagePath, newPackageJson),
   ])
+  console.log(
+    `
+Setup is almost complete. Follow these steps to finish initialization:
+
+- Run setup (this updates the database):
+  npm run setup
+
+- Run the first build (this generates the server you will run):
+  npm run build
+
+- You're now ready to rock and roll 🤘
+  npm run dev
+  `.trim(),
+  )
 }
 
 module.exports = main
