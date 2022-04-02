@@ -28,8 +28,6 @@ import skipNavStyles from '@reach/skip-nav/styles.css'
 
 type LoaderData = { theme: Theme | null }
 
-const HUNDRED_YEARS = 60 * 60 * 24 * 365 * 100
-
 export const links: LinksFunction = () => {
   return [
     { rel: 'stylesheet', href: skipNavStyles },
@@ -56,14 +54,7 @@ export const links: LinksFunction = () => {
 export const loader: LoaderFunction = async ({ request }) => {
   const { getTheme } = await getThemeSession(request)
 
-  return json<LoaderData>(
-    { theme: getTheme() },
-    {
-      headers: {
-        'Strict-Transport-Security': `max-age=${HUNDRED_YEARS}`,
-      },
-    },
-  )
+  return json<LoaderData>({ theme: getTheme() })
 }
 
 function App() {
