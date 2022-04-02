@@ -54,22 +54,6 @@ export const links: LinksFunction = () => {
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const url = new URL(request.url)
-  const forwardedProto = request.headers.get('X-Forwarded-Proto')
-  const host = request.headers.get('X-Forwarded-Host') ?? url.host
-  const pathname = url.pathname
-  const query = url.search ?? ''
-  const hash = url.hash ?? ''
-
-  if (forwardedProto === 'http') {
-    return redirect(`https://${host}${pathname}${query}${hash}`, {
-      headers: {
-        'X-Forwarded-Proto': 'https',
-        'Strict-Transport-Security': `max-age=${HUNDRED_YEARS}`,
-      },
-    })
-  }
-
   const { getTheme } = await getThemeSession(request)
 
   return json<LoaderData>(
