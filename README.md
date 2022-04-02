@@ -141,7 +141,7 @@ openssl rand -hex 32
 We have to set this secret as part of the GitHub actions secret and a Fly secret. The key should be `REFRESH_TOKEN`. You can create a new actions secret in GitHub and create a new secret for the Fly app by running the command.
 
 ```sh
-flyctl secrets set REFRESH_TOKEN=[GENERATED_PASSWORD]
+flyctl secrets set REFRESH_TOKEN={GENERATED_PASSWORD}
 ```
 
 ### Volumes 💾
