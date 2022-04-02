@@ -1,4 +1,12 @@
-# Remix Blog 📖
+# Remix Speed Metal Stack
+
+Learn more about [Remix Stacks](https://remix.run/stacks).
+
+```sh
+npx create-remix --template remix-run/blues-stack
+```
+
+## Remix Blog 📖
 
 This blog starter template was inspired heavily by Kent C. Dodds implementation of [kentcdodds.com][kcd]. You can read more about the architecture and the idea behind it at [How I built a modern website in 2021][kcd-arch].
 
@@ -9,6 +17,19 @@ This blog starter template was inspired heavily by Kent C. Dodds implementation 
 ## Important 🚧
 
 Fly requires a globally unique name for all the apps, and we've used the directory name and random hash as the app name. Of course, you can change this anytime you want BEFORE launching the app with Fly CLI. But it's not a big deal since you can reassign the internal Fly URL to any custom domain by adding a [`CNAME`][cname] record to your custom domain pointing to the Fly internal URL. We'll see that later when deploying the app to production.
+
+## Available scripts
+
+- `build` - compile and build the express server, Remix app, Tailwind in `production` mode
+- `dev` - starts the express server, Remix watcher, Tawilwind CLI in watch mode
+- `format` - runs prettier on the codebase and fixes fixable issues
+- `lint` - runs ESLint on the codebase
+- `new:blog` - create a new Blog post template from the command line
+- `start` - starts the express server (should only be executed after running `npm run build`)
+- `test` - runs `vitest`
+- `test:e2e:dev` - starts the cypress runner in development mode
+- `test:e2e:run` - starts the cypress runner in CI mode
+- `typecheck` - runs type check on the codebase
 
 ## Fly Setup 🛠
 
@@ -52,16 +73,17 @@ npm run dev
 ```
 
 This command starts four processes concurrently.
-The Remix dev server starts in development mode and rebuilds assets on file change.
-Tailwind CLI which rebuilds the stylesheet when the styles change
-An [MSW][msw] server which intercepts the API calls to GitHub and serves the content from the local instead of calling the remote API
-A file watcher watches over the `content` directory and rebuilds the assets.
+
+- The Remix dev server starts in development mode and rebuilds assets on file change.
+- Tailwind CLI which rebuilds the stylesheet when the styles change
+- An [MSW][msw] server which intercepts the API calls to GitHub and serves the content from the local instead of calling the remote API
+- A file watcher watches over the `content` directory and rebuilds the assets.
 
 ### Relavant files 🔍
 
-Tailwind config [tailwind.config.js](./tailwind.config.js)
-MSW API mock server [mock](./mocks/start.ts)
-Content change watcher [refresh-on-content-change](./others/refresh-on-content-change.ts)
+- Tailwind config [tailwind.config.js](./tailwind.config.js)
+- MSW API mock server [mock](./mocks/start.ts)
+- Content change watcher [refresh-on-content-change](./others/refresh-on-content-change.ts)
 
 ## Deployment 🚀
 
@@ -69,8 +91,8 @@ Content change watcher [refresh-on-content-change](./others/refresh-on-content-c
 
 Before proceeding to deploy our app, we have some steps to take care of:
 
-Create a GitHub account [GitHub](https://repo.new)
-Create a new app on Fly
+- Create a GitHub account [GitHub](https://repo.new)
+- Create a new app on Fly
 
 ```sh
 flyctl launch --name [APP_NAME] --copy-config --no-deploy
