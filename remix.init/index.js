@@ -58,10 +58,10 @@ async function main({ rootDirectory }) {
     ])
 
   console.info(
-    `⚠️ You can change the name and description of the blog later at ${path.relative(
+    `\n\n⚠️ You can change the name and description of the blog later at ${path.relative(
       rootDirectory,
       rssPath,
-    )}`,
+    )}\n\n`,
   )
 
   const flyConfigToml = toml.parse(flyConfig)
