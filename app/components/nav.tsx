@@ -19,7 +19,7 @@ export default function Nav() {
          * after hydration
          */}
         <ClientOnly fallback={<SsrPlaceholder />}>
-          <ThemeToggle />
+          {() => <ThemeToggle />}
         </ClientOnly>
       </nav>
     </header>
