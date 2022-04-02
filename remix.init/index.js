@@ -35,7 +35,7 @@ async function main({ rootDirectory }) {
     await inquirer.prompt([
       {
         name: 'name',
-        message: 'Enter the name of the blog',
+        message: 'Enter the name of the blog: ',
         type: 'input',
         validate: input => {
           if (input.trim().length === 0) {
@@ -46,7 +46,7 @@ async function main({ rootDirectory }) {
       },
       {
         name: 'description',
-        message: 'Enter the description of the blog',
+        message: 'Enter the description of the blog: ',
         type: 'input',
         validate: input => {
           if (input.trim().length === 0) {
@@ -78,8 +78,14 @@ async function main({ rootDirectory }) {
       2,
     ) + '\n'
 
-  let newRss = rss.replace(/<title>(.*)<\/title>/gi, blogName)
-  newRss = newRss.replace(/<description>(.*)<\/description>/gi, blogDescription)
+  let newRss = rss.replace(
+    /<title>(.*)<\/title>/gi,
+    `<title>${blogName}</title>`,
+  )
+  newRss = newRss.replace(
+    /<description>(.*)<\/description>/gi,
+    `<description>${blogDescription}</description>`,
+  )
 
   await Promise.all([
     fs.writeFile(readmePath, newreadme),
