@@ -19,7 +19,7 @@ async function main({ rootDirectory }) {
   const projectName = path.basename(path.resolve(rootDirectory))
   const randomHash = crypto.randomBytes(2).toString('hex')
   const appName = `${projectName}-${randomHash}`
-  const replacer = 'APP_NAME'
+  const replacer = 'YOUR_APP_NAME'
 
   const [readme, envExample, flyConfig, packageJson] = await Promise.all([
     fs.readFile(readmePath, 'utf-8'),
