@@ -3,6 +3,7 @@ const fs = require('fs/promises')
 const toml = require('@iarna/toml')
 const crypto = require('crypto')
 const sort = require('sort-package-json')
+const inquirer = require('inquirer')
 
 function escapeRegExp(string) {
   // $& means the whole matched string
@@ -15,21 +16,56 @@ async function main({ rootDirectory }) {
   const envPath = path.join(rootDirectory, '.env')
   const flyConfigPath = path.join(rootDirectory, 'fly.toml')
   const packagePath = path.join(rootDirectory, 'package.json')
+  const rssPath = path.join(rootDirectory, 'app', 'routes', 'blog.rss[.]xml.ts')
 
   const projectName = path.basename(path.resolve(rootDirectory))
   const randomHash = crypto.randomBytes(2).toString('hex')
   const appName = `${projectName}-${randomHash}`
   const replacer = 'YOUR_APP_NAME'
 
-  const [readme, envExample, flyConfig, packageJson] = await Promise.all([
+  const [readme, envExample, flyConfig, packageJson, rss] = await Promise.all([
     fs.readFile(readmePath, 'utf-8'),
     fs.readFile(envExamplePath, 'utf-8'),
     fs.readFile(flyConfigPath, 'utf-8'),
     fs.readFile(packagePath, 'utf-8'),
+    fs.readFile(rssPath, 'utf-8'),
   ])
+
+  const { name: blogName, description: blogDescription } =
+    await inquirer.prompt([
+      {
+        name: 'name',
+        message: 'Enter the name of the blog',
+        type: 'input',
+        validate: input => {
+          if (input.trim().length === 0) {
+            return 'Enter a valid blog name'
+          }
+          return true
+        },
+      },
+      {
+        name: 'description',
+        message: 'Enter the description of the blog',
+        type: 'input',
+        validate: input => {
+          if (input.trim().length === 0) {
+            return 'Enter a valid blog description'
+          }
+          return true
+        },
+      },
+    ])
+  console.info(
+    `You can change the name and description of the blog later at ${path.relative(
+      rootDirectory,
+      rssPath,
+    )}`,
+  )
 
   const flyConfigToml = toml.parse(flyConfig)
   flyConfigToml.app = appName
+
   const newreadme = readme.replace(
     new RegExp(escapeRegExp(replacer), 'g'),
     appName,
@@ -41,11 +77,15 @@ async function main({ rootDirectory }) {
       2,
     ) + '\n'
 
+  let newRss = rss.replace(/<title>(.*)<\/title>/gi, blogName)
+  newRss = newRss.replace(/<description>(.*)<\/description>/gi, blogDescription)
+
   await Promise.all([
     fs.writeFile(readmePath, newreadme),
     fs.writeFile(envPath, envExample),
     fs.writeFile(flyConfigPath, toml.stringify(flyConfigToml)),
     fs.writeFile(packagePath, newPackageJson),
+    fs.writeFile(rssPath, newRss),
   ])
   console.log(
     `
