@@ -38,11 +38,24 @@ async function go() {
 
   const slug = slugify(title)
 
-  const { description, published, folder } = await inquirer.prompt<{
+  const { keywords, description, published, folder } = await inquirer.prompt<{
     description: string
     published: boolean
     folder: string
+    keywords: string
   }>([
+    {
+      type: 'input',
+      name: 'keywords',
+      message: 'Enter the blog keywords (comma separated)',
+      filter: (input: string) => input.trim(),
+      validate: (input: string) => {
+        if (input.trim().length === 0) {
+          return 'Enter a keyword'
+        }
+        return true
+      },
+    },
     {
       type: 'editor',
       name: 'description',
@@ -69,8 +82,8 @@ async function go() {
       name: 'folder',
       message: 'Will the MDX contain any custom components?',
       choices: [
-        { name: 'Yes', value: true },
         { name: 'No', value: false },
+        { name: 'Yes', value: true },
       ],
     },
   ])
@@ -78,8 +91,14 @@ async function go() {
   const data = `---
 slug: ${slug}
 title: ${title}
-date: ${new Date().toDateString()}
+date: ${new Date().toISOString()}
 description: ${description}
+meta:
+  keywords:
+${keywords
+  .split(/, ?/)
+  .map(keyword => `    - ${keyword}`)
+  .join('\n')}
 published: ${published}
 ---
 
