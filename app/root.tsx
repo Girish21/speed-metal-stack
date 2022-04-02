@@ -7,7 +7,7 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from '@remix-run/react'
-import { json, redirect } from '@remix-run/server-runtime'
+import { json } from '@remix-run/server-runtime'
 import type { LinksFunction, LoaderFunction } from '@remix-run/server-runtime'
 import { SkipNavContent, SkipNavLink } from '@reach/skip-nav'
 
