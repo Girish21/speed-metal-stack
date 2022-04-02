@@ -1,43 +1,52 @@
 kill_signal = "SIGINT"
 kill_timeout = 5
-processes = [ ]
+processes = []
 
 [env]
-DATABASE_URL = "file:/data/sqlite.db"
-PORT = "8080"
+  DATABASE_URL = "file:/data/sqlite.db"
+  PORT = "8080"
 
 [experimental]
-allowed_public_ports = [ ]
-auto_rollback = true
-cmd = "start_with_migrations.sh"
-entrypoint = "sh"
+  allowed_public_ports = []
+  auto_rollback = true
+  cmd = "start_with_migrations.sh"
+  entrypoint = "sh"
 
 [[mounts]]
-destination = "/data"
-source = "data"
+  destination = "/data"
+  source = "data"
 
 [[services]]
-http_checks = [ ]
-internal_port = 8_080
-processes = [ "app" ]
-protocol = "tcp"
-script_checks = [ ]
+  internal_port = 8080
+  processes = ["app"]
+  protocol = "tcp"
+  script_checks = []
 
   [services.concurrency]
-  hard_limit = 25
-  soft_limit = 20
-  type = "connections"
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
 
   [[services.ports]]
-  handlers = [ "http" ]
-  port = 80
+    handlers = ["http"]
+    port = 80
 
   [[services.ports]]
-  handlers = [ "tls", "http" ]
-  port = 443
+    handlers = ["tls", "http"]
+    port = 443
 
   [[services.tcp_checks]]
-  grace_period = "30s"
-  interval = "15s"
-  restart_limit = 0
-  timeout = "2s"
+    grace_period = "1s"
+    interval = "15s"
+    restart_limit = 0
+    timeout = "2s"
+
+  [[services.http_checks]]
+    interval = 10000
+    grace_period = "5s"
+    method = "get"
+    path = "/healthcheck"
+    protocol = "http"
+    timeout = 2000
+    tls_skip_verify = false
+    [services.http_checks.headers]
