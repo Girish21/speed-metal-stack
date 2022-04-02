@@ -56,8 +56,9 @@ async function main({ rootDirectory }) {
         },
       },
     ])
+
   console.info(
-    `You can change the name and description of the blog later at ${path.relative(
+    `⚠️ You can change the name and description of the blog later at ${path.relative(
       rootDirectory,
       rssPath,
     )}`,
