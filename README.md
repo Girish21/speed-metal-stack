@@ -95,7 +95,7 @@ Before proceeding to deploy our app, we have some steps to take care of:
 - Create a new app on Fly
 
 ```sh
-flyctl launch --name [APP_NAME] --copy-config --no-deploy
+flyctl launch --name APP_NAME --copy-config --no-deploy
 ```
 
 > ⚠️ Remember not to deploy since we have some setup steps left to complete!
@@ -169,13 +169,13 @@ Once all the checks are passed, and the deployment is complete, you can run:
 flyctl info
 ```
 
-To get the current app URL and IP address. The app URL will be `https://[APP_NAME].fly.dev`. You can visit that URL, and the site should be online. That's it. You have deployed your blog built using REMIX!.
+To get the current app URL and IP address. The app URL will be `https://APP_NAME.fly.dev`. You can visit that URL, and the site should be online. That's it. You have deployed your blog built using REMIX!.
 
 ### Adding Custom Domain 🔖
 
 To add a custom domain to the app, you first must buy a domain from a Domain Name Register, and you can choose one of your preferences. Some popular options are [Domain.com](https://www.domain.com/), [Google](https://domains.google.com/registrar), [Cloudflare](https://www.cloudflare.com/en-gb/products/registrar/).
 
-After buying the domain, we can add a DNS record to point to the domain or create a subdomain and point that to the Fly app URL. We can do that by adding a DNS record using the CNAME option and entering the Fly URL `https://[APP_NAME].fly.dev`.
+After buying the domain, we can add a DNS record to point to the domain or create a subdomain and point that to the Fly app URL. We can do that by adding a DNS record using the CNAME option and entering the Fly URL `https://APP_NAME.fly.dev`.
 
 We also have to create an SSL certificate on Fly with the domain name. We can do that by running the command:
 
