@@ -1,4 +1,3 @@
-app = "speed-metal-stack-63c4"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = [ ]
