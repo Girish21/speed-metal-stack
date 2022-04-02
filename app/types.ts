@@ -10,13 +10,15 @@ type MdxPage = {
     published?: boolean
     title?: string
     description?: string
-    meta?: Record<string, string | string[]>
+    meta?: Record<string, string | string[]> & {
+      keywords?: Array<string>
+    }
     date?: string
   }
 }
 
 type MdxComponent = {
-  frontmatter: Record<string, unknown>
+  frontmatter: MdxPage['frontmatter']
   slug: string
   title: string
   code: string

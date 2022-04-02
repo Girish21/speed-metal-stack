@@ -35,6 +35,7 @@ export async function getContentList(contentDirectory = 'blog') {
       title: true,
       timestamp: true,
       description: true,
+      frontmatter: true,
     },
     orderBy: { timestamp: 'desc' },
   })

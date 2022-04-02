@@ -16,6 +16,7 @@ import styles from 'highlight.js/styles/night-owl.css'
 import { getSeoMeta } from '~/utils/seo'
 
 export const meta: MetaFunction = ({ data }: { data: MdxComponent }) => {
+  const { keywords = [] } = data.frontmatter.meta ?? {}
   const seoMeta = getSeoMeta({
     title: data.title,
     description: data.description,
@@ -25,7 +26,7 @@ export const meta: MetaFunction = ({ data }: { data: MdxComponent }) => {
     },
   })
 
-  return { ...seoMeta }
+  return { ...seoMeta, keywords: keywords.join(', ') }
 }
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }]
