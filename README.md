@@ -259,17 +259,17 @@ After logging in to the console, you can also inspect the SQLite DB. But first, 
 
 ## Important links
 
-[Remix](https://remix.run/)
-[Remix docs](https://remix.run/docs/en/v1)
-[Fly.io](https://fly.io/)
-[flyctl](https://fly.io/docs/flyctl/)
-[Fly secrets](https://fly.io/docs/reference/secrets/)
-[Fly scaling][fly-scaling]
-[Fly volumes](https://fly.io/docs/reference/volumes/)
-[Fly regions][fly-regions]
-[Fly configuration](https://fly.io/docs/reference/configuration/)
-[MDX Bundler][mdx-bundler]
-[SQLite][sqlite]
+- [Remix](https://remix.run/)
+- [Remix docs](https://remix.run/docs/en/v1)
+- [Fly.io](https://fly.io/)
+- [flyctl](https://fly.io/docs/flyctl/)
+- [Fly secrets](https://fly.io/docs/reference/secrets/)
+- [Fly scaling][fly-scaling]
+- [Fly volumes](https://fly.io/docs/reference/volumes/)
+- [Fly regions][fly-regions]
+- [Fly configuration](https://fly.io/docs/reference/configuration/)
+- [MDX Bundler][mdx-bundler]
+- [SQLite][sqlite]
 
 [kcd]: https://kentcdodds.com/
 [kcd-arch]: https://kentcdodds.com/blog/how-i-built-a-modern-website-in-2021
