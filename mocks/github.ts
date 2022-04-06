@@ -53,12 +53,9 @@ export const GitHubMocks: Array<
 
       if (!isLocalDir && !isLocalFile) {
         return res(
-          ctx.status(404),
-          ctx.json({
-            message: 'Not Found',
-            documentation_url:
-              'https://docs.github.com/rest/reference/repos#get-repository-content',
-          }),
+          ctx.status(200),
+          // return an empty array when there are no blogs inside content/blogs
+          ctx.json([]),
         )
       }
 
