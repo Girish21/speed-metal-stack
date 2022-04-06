@@ -18,6 +18,17 @@ This blog starter template was inspired heavily by Kent C. Dodds implementation 
 
 Fly requires a globally unique name for all the apps, and we've used the directory name and random hash as the app name. Of course, you can change this anytime you want BEFORE launching the app with Fly CLI. But it's not a big deal since you can reassign the internal Fly URL to any custom domain by adding a [`CNAME`][cname] record to your custom domain pointing to the Fly internal URL. We'll see that later when deploying the app to production.
 
+## Quickstart
+
+```sh
+# run database migrations and set up the initial blog
+npm run setup
+# run the initial build for the development server
+npm run build
+# start the development server and run other processes in parallel in watch mode
+npm run dev
+```
+
 ## Available scripts
 
 - `build` - compile and build the express server, Remix app, Tailwind in `production` mode
