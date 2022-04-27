@@ -1,3 +1,5 @@
+import { SkipNavContent, SkipNavLink } from '@reach/skip-nav'
+import skipNavStyles from '@reach/skip-nav/styles.css'
 import {
   Links,
   LiveReload,
@@ -7,24 +9,15 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from '@remix-run/react'
-import { json } from '@remix-run/server-runtime'
 import type { LinksFunction, LoaderFunction } from '@remix-run/server-runtime'
-import { SkipNavContent, SkipNavLink } from '@reach/skip-nav'
-
+import { json } from '@remix-run/server-runtime'
 import Nav from '~/components/nav'
-import Footer, { preloadFooterSvg } from './components/footer'
-import {
-  SsrTheme,
-  Theme,
-  ThemeMeta,
-  ThemeProvider,
-  useTheme,
-} from './utils/theme'
-import { getThemeSession } from './utils/theme-session.server'
-import { preloadSvg } from './components/theme-toggle'
-
 import appStyles from '~/styles/app.css'
-import skipNavStyles from '@reach/skip-nav/styles.css'
+import Footer, { preloadFooterSvg } from './components/footer'
+import { preloadSvg } from './components/theme-toggle'
+import type { Theme } from './utils/theme'
+import { SsrTheme, ThemeMeta, ThemeProvider, useTheme } from './utils/theme'
+import { getThemeSession } from './utils/theme-session.server'
 
 type LoaderData = { theme: Theme | null }
 

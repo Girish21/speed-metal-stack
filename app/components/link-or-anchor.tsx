@@ -1,5 +1,6 @@
+import type { LinkProps } from '@remix-run/react'
+import { Link } from '@remix-run/react'
 import * as React from 'react'
-import { Link, LinkProps } from '@remix-run/react'
 
 type AnchorProps = React.DetailedHTMLProps<
   React.AnchorHTMLAttributes<HTMLAnchorElement>,

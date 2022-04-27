@@ -1,4 +1,4 @@
-import type * as React from 'react'
+import * as React from 'react'
 import { useLoaderData } from '@remix-run/react'
 import type {
   HeadersFunction,
