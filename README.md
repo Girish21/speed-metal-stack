@@ -187,7 +187,7 @@ After buying the domain, we can add a DNS record to point to the domain or creat
 We also have to create an SSL certificate on Fly with the domain name. We can do that by running the command:
 
 ```sh
-flyctl cert create [DOMAIN]
+flyctl certs create [DOMAIN]
 ```
 
 You can read more about this at [SSL for Custom Domains](https://fly.io/docs/app-guides/custom-domains-with-fly/)
