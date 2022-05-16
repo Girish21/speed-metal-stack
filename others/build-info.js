@@ -3,11 +3,18 @@ const fs = require('fs')
 const fetch = require('node-fetch')
 
 const SHA = process.env.COMMIT_SHA
+const GH_ACCESS_TOKEN = process.env.GH_ACCESS_TOKEN
 
 async function getCommitInfo() {
   try {
     const response = await fetch(
       `https://api.github.com/repos/${process.env.GITHUB_REPOSITORY}/commits/${SHA}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `token ${GH_ACCESS_TOKEN}`,
+        },
+      },
     )
     const data = await response.json()
 
