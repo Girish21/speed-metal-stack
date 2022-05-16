@@ -260,7 +260,7 @@ You can also log in to the remote console using the `flyctl ssh console` command
 
 ### Database
 
-After logging in to the console, you can also inspect the SQLite DB. But first, we have to install SQLite on the remote machine. We can do that using the `apt-get install sqlite3` command. Then, `cd` into the volume using the `cd data` command (Note: `data` refers to the volume's name created from the command line). And then run the command `sqlite3 sqlite.db` to open a command-line interface into the database.
+The sqlite database lives at `/data/sqlite.db` in your deployed application. You can connect to the live database by running `fly ssh console -C database-cli`.
 
 ## Important links
 
